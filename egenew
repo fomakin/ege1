@@ -1,0 +1,300 @@
+# 2 задание
+from itertools import *
+
+
+def f(x, y, w, z):
+    return (x == (not y)) <= ((x and w) == z)
+
+
+for a1, a2, a3, a4, a5 in product([0, 1], repeat=5):
+    table = [(1, 1, a1, a2), (1, 1, a3, 1), (a4, 1, 1, a5)]
+    if len(table) == len(set(table)):
+        for p in permutations('xywz'):
+            if [f(**dict(zip(p, r))) for r in table] == [0, 0, 0]:
+                print(p)
+############################
+# 15(отрезки)
+from itertools import *
+
+
+def f(x):
+    b = 10 <= x <= 15
+    c = 18 <= x <= 40
+    a = a1 <= x <= a2
+    return  # логическое выражение
+
+
+ox = [i / 4 for i in range(10 * 4, 40 * 4 + 1)]
+m = []
+for a1, a2 in combinations(ox, 2):
+    if all(f(x) for x in ox):
+        m.append(a2 - a1)
+print(min(m))
+
+
+# 15(обычное)
+def f(x, y):
+    return ((x - 3 * y) < a) or (y > 400) or (x > 56)
+
+
+for a in range(0, 1000):
+    if all(f(x, y) for x in range(1, 1000) for y in range(1, 1000)):
+        print(a)
+        break
+############################
+# 16 задание
+from sys import *
+
+setrecursionlimit(10000)
+
+
+def f(n):
+    if n <= 2:
+        return 1
+    if n > 2:
+        return n * f(n - 2)
+
+
+print(f(5000) / f(4994))
+#############################
+# 17 задание
+a = [int(x) for x in open('17-243.txt')]
+
+S = sum([int(i) for x in a if x % 49 == 0 for i in str(x)])
+ans = []
+for i in range(len(a) - 1):
+    if (a[i] > S and (not a[i + 1] > S) and a[i + 1] % 10 == 7) or \
+            (a[i + 1] > S and (not a[i] > S) and a[i] % 10 == 7):
+        ans.append(a[i] + a[i + 1])
+print(len(ans), min(ans))
+
+
+############################
+# 19-21 задание
+def f(a, b, m):
+    if a + b >= 231:
+        return m % 2 == 0
+    if m == 0:
+        return 0
+    h = [f(a + 2, b, m - 1), f(a * 2, b, m - 1), f(a, b + 2, m - 1), f(a, b * 2, m - 1)]
+    return any(h) if (m - 1) % 2 == 0 else all(h)
+
+
+print('19)', [s for s in range(1, 214) if f(17, s, 2)])  # all->any
+print('20)', [s for s in range(1, 214) if not f(17, s, 1) and f(17, s, 3)])
+print('21)', [s for s in range(1, 214) if not f(17, s, 2) and f(17, s, 4)])
+############################
+# 23 задание
+from functools import *
+
+
+@lru_cache(None)
+def f(c, e):
+    if c > e:
+        return 0
+    if c == e:
+        return 1
+    if c < e:
+        return f(c + 1, e) + f(2 * c, e) + f(2 * c + 1, e)
+
+
+print(f(4, 218))
+
+
+#############################
+# 25(делители)
+def f(x):
+    d = set()
+    for i in range(1, int(x ** 0.5) + 1):
+        if x % i == 0:
+            d.add(i)
+            d.add(x // i)
+    return sorted(d)
+
+
+for x in range(244143, 367821 + 1):
+    d = f(x)
+    # эта часть кода меняется    if int(x**0.5)**2 == x:
+    if len(d) == 5:
+        print(d[3], d[4])
+
+# 25(маски)
+from fnmatch import *
+
+# range меняется в зависимости от условия#шаг это делимость
+for i in range(0, 10 ** 10, 1):
+    if fnmatch(str(i), '12673788?*'):
+        print(i)
+#############################
+# 27 задание
+f = open('7584a.txt')
+f.readline()
+# если первая строчка x,y
+data = [list(map(float, x.replace(',', '.').split())) for x in a]
+print(len(data))
+
+
+def dist(p1, p2):
+    x1, y1, x2, y2 = *p1, *p2
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+
+
+def getCluster(p0):
+    cluster = [p for p in data if dist(p0, p) < 1]
+    if len(cluster) > 0:
+        for p in cluster: 
+            data.remove(p)
+        next_cluster = [getCluster(p) for p in cluster]
+        cluster = cluster + sum(next_cluster, [])
+    return cluster
+
+
+clusters = []
+while len(data) > 0:
+    p0 = data.pop()
+    cluster = [p0] + getCluster(p0)
+    print(len(cluster))
+    clusters.append(cluster)
+
+clusters = [kl for kl in clusters if len(kl) > 10]
+
+K = len(clusters)
+
+
+def center(kl):
+    m = []
+    for p in kl:
+        sm = sum(dist(p, p1) * p1[2] for p1 in kl)
+        m.append([sm, p])
+    return min(m)[1]
+
+
+centroid = [center(kl) for kl in clusters]
+print(centroid)
+
+px = sum(x for x, y in centroid) / K
+py = sum(y for x, y in centroid) / K
+print(int(px * 100000), int(py * 100000))
+########################################################
+# еще несколько вариантов
+
+# 2
+from itertools import *
+
+
+def f(x, y, w, z):
+    return  # в зависимости от условия
+
+
+for a1, a2, a3, a4 in product([0, 1], repeat=4):
+    # в зависимости от условия
+    t = [(1, 1, 1, a1), (1, 1, 1, a2), (1, a3, a4, 1)]
+    if len(t) == len(set(t)):
+        for p in permutations('xywz'):
+            if [f(**dict(zip(p, r))) for r in t] == [1, 1, 1]:
+                print(*p, sep='')
+
+
+# 19-21
+def f(a, b, m):
+    if a + b >= 231: 
+        return m % 2 == 0
+    if m == 0: 
+        return 0
+    h = [f(a + 2, b, m - 1), f(a * 2, b, m - 1), f(a, b + 2, m - 1), f(a, b * 2, m - 1)]
+    return any(h) if (m - 1) % 2 == 0 else all(h)
+
+
+print('19)', [s for s in range(1, 214) if
+              f(17, s, 2)])  # all->anyprint('20)',[s for s in range(1,214) if not f(17,s,1) and f(17,s,3)])
+print('21)', [s for s in range(1, 214) if not f(17, s, 2) and f(17, s, 4)])
+# 13 подсчет количества адресов в сети
+from ipaddress import *
+
+net = ip_network('192.168.5.22/255.255.255.248', 0)
+print(net)
+print(int(ip_address('192.168.5.22')) - int(ip_address('192.168.5.16')))
+# определение адреса сети
+from ipaddress import *
+net = ip_network('224.37.249.32/255.255.224.0', 0)
+print(net)
+# определние маски
+from ipaddress import ip_network, IPv4Address
+
+
+def normalize(n):  # Функция для получения из двоичного числа маску
+    return str(IPv4Address(int(n.ljust(32, "0"), 2)))
+
+
+for mask in range(32):  # Перебираем маски, если подходит, то выводим третий слева байт
+    net = ip_network(f"224.128.112.142/{mask}", strict=False)
+
+    if str(net.network_address) == "224.128.64.0":
+        mask = normalize("1" * mask)
+        print(mask.split(".")[2])
+# 16 рекурсия
+from functools import *
+import sys
+
+sys.setrecursionlimit(10**6)
+@lru_cache(None)
+
+def F(n):
+    if n < 7:
+        return 7
+    else:
+        return 2 * n + F(n - 1)
+for i in range(10000000000000000000):
+    f(i)
+print(F(2024) - F(2022))
+# 27
+clustersA = [[],[],[]]
+
+clustersB = [[],[],[],[],[]]
+
+for s in open("27A_19747.txt").readlines():
+    x, y = [float(a) for a in s.split()]
+    if x < 5:
+        clustersA[0].append([x, y])
+    elif y > 5:
+        clustersA[1].append([x, y])
+    else:
+        clustersA[2].append([x, y])
+
+for s in open("27B_19747.txt").readlines():
+    x, y = [float(a) for a in s.split()]
+    if x < 10:
+        if y < x:
+            clustersB[0].append([x, y])
+        else:
+            clustersB[1].append([x, y])
+    else:
+        if y < 10:
+            clustersB[2].append([x, y])
+        elif y < x:
+            clustersB[3].append([x, y])
+        else:
+            clustersB[4].append([x, y])
+
+def dist(a, b):
+    x1, y1 = a
+    x2, y2 = b
+    return ((x2-x1) ** 2+(y2-y1) ** 2)**0.5
+
+def center(cl):
+    m = []
+    for p in cl:
+        sm = sum(dist(p, p1) for p1 in cl)
+        m.append([sm, p])
+    return min(m)[1]
+
+centersA = [center(cl) for cl in clustersA]
+centersB = [center(cl) for cl in clustersB]
+
+pxA = sum(x for x, y in centersA)/3*100000
+pyA = sum(y for x, y in centersA)/3*100000
+pxB = sum(x for x, y in centersB)/5*100000
+pyB = sum(y for x, y in centersB)/5*100000
+
+print(int(pxA), int(pyA))
+print(int(pxB), int(pyB))
